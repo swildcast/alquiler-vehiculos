@@ -1,0 +1,27 @@
+{
+  "name": "alquiler-vehiculos",
+  "version": "1.0.0",
+  "description": "Proyecto final - Programación para Entornos Web II Estudiante: Santiago Lince",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swildcast/alquiler-vehiculos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/swildcast/alquiler-vehiculos/issues"
+  },
+  "homepage": "https://github.com/swildcast/alquiler-vehiculos#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.23.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8"
+  }
+}
