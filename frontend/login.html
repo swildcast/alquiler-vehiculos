@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveNow — Iniciar sesión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="logo-icon">🚗</span>
+        <span>Drive<span class="gradient-text">Now</span></span>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login">Iniciar sesión</button>
+        <button class="auth-tab" id="tab-registro">Registrarse</button>
+      </div>
+
+      <!-- Formulario de Login -->
+      <form class="auth-form active" id="form-login">
+        <div class="form-group">
+          <label for="loginEmail">Correo electrónico</label>
+          <input type="email" id="loginEmail" placeholder="tucorreo@drivenow.com" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <div class="field-error" id="loginError"></div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+
+      <!-- Formulario de Registro -->
+      <form class="auth-form" id="form-registro">
+        <div class="form-group">
+          <label for="regNombre">Nombre completo</label>
+          <input type="text" id="regNombre" placeholder="Ej. Juan Díaz" required>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Correo electrónico</label>
+          <input type="email" id="regEmail" placeholder="tucorreo@ejemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Contraseña</label>
+          <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required>
+        </div>
+        <div class="form-group">
+          <label for="regPassword2">Confirmar contraseña</label>
+          <input type="password" id="regPassword2" placeholder="Repite tu contraseña" required>
+        </div>
+        <div class="field-error" id="regError"></div>
+        <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
+      </form>
+
+      <div class="auth-hint">
+        Las credenciales se validan contra PostgreSQL (tabla <strong>Clientes</strong>)
+        mediante <strong>POST /api/login</strong>. Ejecuta <strong>npm run seed</strong>
+        en el backend para crear los usuarios de prueba.
+      </div>
+      <button type="button" class="demo-users-toggle" id="toggleDemoUsers">Ver usuarios de prueba</button>
+      <div class="demo-users-list" id="demoUsersList">
+        <div><strong>cliente</strong> — ana.torres@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — luis.ramirez@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — maria.gomez@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — carlos.perez@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — sofia.mendoza@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — jorge.castillo@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — valentina.rojas@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — diego.fernandez@drivenow.com / cliente123</div>
+        <div><strong>cliente</strong> — camila.vargas@drivenow.com / cliente123</div>
+        <div><strong>admin</strong> — admin@drivenow.com / admin123</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    inicializarLogin();
+  </script>
+</body>
+</html>

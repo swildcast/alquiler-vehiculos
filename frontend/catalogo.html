@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveNow — Catálogo de vehículos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">🚗 Drive<span class="gradient-text">Now</span></div>
+    <div class="user-area">
+      <div class="user-chip">
+        <span class="avatar" id="navUserAvatar">?</span>
+        <span id="navUserName">Usuario</span>
+        <span class="role-badge" id="navUserRole">rol</span>
+      </div>
+      <button class="btn btn-ghost" id="btnCerrarSesion">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <h1>Encuentra tu próximo <span class="gradient-text">vehículo</span></h1>
+    <p>Explora nuestra flota disponible y reserva en segundos.</p>
+  </header>
+
+  <section class="filters-bar">
+    <div class="filter-group">
+      <label for="filtroMarca">Marca</label>
+      <select id="filtroMarca"></select>
+    </div>
+    <div class="filter-group">
+      <label for="filtroTipo">Tipo de vehículo</label>
+      <select id="filtroTipo"></select>
+    </div>
+    <div class="filter-group">
+      <label>Rango de precio (USD/día)</label>
+      <div class="price-range">
+        <input type="number" id="precioMin" placeholder="Mín" min="0">
+        <span>—</span>
+        <input type="number" id="precioMax" placeholder="Máx" min="0">
+      </div>
+    </div>
+    <div class="filter-group">
+      <label for="filtroDisponibilidad">Disponibilidad</label>
+      <select id="filtroDisponibilidad">
+        <option value="">Todos</option>
+        <option value="disponible">Disponible</option>
+        <option value="alquilado">Alquilado</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <button class="btn btn-ghost filter-reset" id="btnReiniciarFiltros">Limpiar filtros</button>
+    </div>
+  </section>
+
+  <p class="results-info" id="resultsInfo"></p>
+
+  <main class="catalog-grid" id="catalogGrid">
+    <!-- Las tarjetas de vehículos se generan dinámicamente desde app.js -->
+  </main>
+
+  <!-- Modal de Reserva -->
+  <div class="modal-overlay" id="modalReserva">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Reservar vehículo</h3>
+        <button class="modal-close" id="btnCerrarModal">&times;</button>
+      </div>
+
+      <div class="modal-vehicle-preview">
+        <img id="modalVehiculoImg" src="" alt="Vehículo seleccionado">
+        <div>
+          <div class="vehicle-title" id="modalVehiculoNombre"></div>
+          <div class="vehicle-subtitle" id="modalVehiculoPrecio"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="reservaFechaInicio">Fecha de inicio</label>
+        <input type="date" id="reservaFechaInicio">
+      </div>
+      <div class="form-group" style="margin-top: 0.9rem;">
+        <label for="reservaDias">Días de alquiler</label>
+        <input type="number" id="reservaDias" min="1" value="1">
+      </div>
+
+      <div class="modal-total">
+        <span>Total estimado</span>
+        <span class="total-amount" id="modalTotalAmount">$0</span>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="btnConfirmarReserva">Confirmar reserva</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+  <script>
+    inicializarCatalogo();
+  </script>
+</body>
+</html>

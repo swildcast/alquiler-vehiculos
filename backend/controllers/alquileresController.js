@@ -95,6 +95,10 @@ const crearAlquiler = async (req, res) => {
       dias
     });
 
+    // Marca el vehículo como no disponible mientras dure el alquiler activo
+    vehiculo.disponible = false;
+    await vehiculo.save();
+
     res.status(201).json(nuevoAlquiler);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al crear el alquiler', error: error.message });
@@ -137,6 +141,14 @@ const eliminarAlquiler = async (req, res) => {
     }
 
     await alquiler.destroy();
+
+    // Restaura la disponibilidad del vehículo al cancelar/eliminar el alquiler
+    const vehiculo = await Vehiculo.findByPk(alquiler.idVehiculo);
+    if (vehiculo) {
+      vehiculo.disponible = true;
+      await vehiculo.save();
+    }
+
     res.json({ mensaje: 'Alquiler eliminado correctamente' });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al eliminar el alquiler', error: error.message });

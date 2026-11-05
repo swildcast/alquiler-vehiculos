@@ -29,13 +29,20 @@ const obtenerVehiculoPorId = async (req, res) => {
 // 3. Crear un vehículo ➕
 const crearVehiculo = async (req, res) => {
   try {
-    const { marca, modelo } = req.body;
+    const {
+      marca, modelo, tipo, transmision, pasajeros,
+      combustible, maletas, precioPorDia, imagenUrl, disponible
+    } = req.body;
 
-    if (!marca || !modelo) {
-      return res.status(400).json({ mensaje: 'Marca y modelo son obligatorios' });
+    if (!marca || !modelo || precioPorDia === undefined) {
+      return res.status(400).json({ mensaje: 'Marca, modelo y precioPorDia son obligatorios' });
     }
 
-    const nuevoVehiculo = await Vehiculo.create({ marca, modelo });
+    const nuevoVehiculo = await Vehiculo.create({
+      marca, modelo, tipo, transmision, pasajeros,
+      combustible, maletas, precioPorDia, imagenUrl,
+      disponible: disponible !== undefined ? disponible : true
+    });
     res.status(201).json(nuevoVehiculo);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al crear el vehículo', error: error.message });
@@ -46,7 +53,10 @@ const crearVehiculo = async (req, res) => {
 const actualizarVehiculo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { marca, modelo } = req.body;
+    const {
+      marca, modelo, tipo, transmision, pasajeros,
+      combustible, maletas, precioPorDia, imagenUrl, disponible
+    } = req.body;
 
     const vehiculo = await Vehiculo.findByPk(id);
 
@@ -56,6 +66,14 @@ const actualizarVehiculo = async (req, res) => {
 
     if (marca) vehiculo.marca = marca;
     if (modelo) vehiculo.modelo = modelo;
+    if (tipo) vehiculo.tipo = tipo;
+    if (transmision) vehiculo.transmision = transmision;
+    if (pasajeros !== undefined) vehiculo.pasajeros = pasajeros;
+    if (combustible) vehiculo.combustible = combustible;
+    if (maletas !== undefined) vehiculo.maletas = maletas;
+    if (precioPorDia !== undefined) vehiculo.precioPorDia = precioPorDia;
+    if (imagenUrl) vehiculo.imagenUrl = imagenUrl;
+    if (disponible !== undefined) vehiculo.disponible = disponible;
 
     await vehiculo.save();
 

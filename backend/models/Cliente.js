@@ -8,10 +8,21 @@ const Cliente = sequelize.define('Cliente', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
+    validate: { isEmail: true }
   },
   telefono: {
     type: DataTypes.STRING
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  rol: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'cliente'
   }
 });
 

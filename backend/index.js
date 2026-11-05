@@ -6,6 +6,7 @@ const sequelize = require('./config/database');
 const vehiculosRoutes = require('./routes/vehiculosRoutes');
 const clientesRoutes = require('./routes/clientesRoutes');
 const alquileresRoutes = require('./routes/alquileresRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/vehiculos', vehiculosRoutes);
 app.use('/clientes', clientesRoutes);
 app.use('/alquileres', alquileresRoutes);
+app.use('/api', authRoutes);
 
 // Conexión y servidor
 sequelize.sync().then(() => {

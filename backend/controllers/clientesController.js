@@ -1,9 +1,12 @@
+const bcrypt = require('bcryptjs');
 const Cliente = require('../models/Cliente');
+
+const SIN_PASSWORD = { attributes: { exclude: ['password'] } };
 
 // 1. Obtener todos los clientes 📋
 const obtenerClientes = async (req, res) => {
   try {
-    const clientes = await Cliente.findAll();
+    const clientes = await Cliente.findAll(SIN_PASSWORD);
     res.json(clientes);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener clientes', error: error.message });
@@ -14,7 +17,7 @@ const obtenerClientes = async (req, res) => {
 const obtenerClientePorId = async (req, res) => {
   try {
     const { id } = req.params;
-    const cliente = await Cliente.findByPk(id);
+    const cliente = await Cliente.findByPk(id, SIN_PASSWORD);
 
     if (!cliente) {
       return res.status(404).json({ mensaje: 'Cliente no encontrado' });
@@ -26,17 +29,21 @@ const obtenerClientePorId = async (req, res) => {
   }
 };
 
-// 3. Crear un cliente ➕
+// 3. Crear un cliente ➕ (uso administrativo; el registro de clientes nuevos
+//    debe hacerse normalmente vía POST /api/registro)
 const crearCliente = async (req, res) => {
   try {
-    const { nombre, email, telefono } = req.body;
+    const { nombre, email, telefono, password } = req.body;
 
-    if (!nombre || !email) {
-      return res.status(400).json({ mensaje: 'Nombre y email son obligatorios' });
+    if (!nombre || !email || !password) {
+      return res.status(400).json({ mensaje: 'Nombre, email y password son obligatorios' });
     }
 
-    const nuevoCliente = await Cliente.create({ nombre, email, telefono });
-    res.status(201).json(nuevoCliente);
+    const passwordHash = await bcrypt.hash(password, 10);
+    const nuevoCliente = await Cliente.create({ nombre, email, telefono, password: passwordHash });
+
+    const { password: _omit, ...clienteSinPassword } = nuevoCliente.toJSON();
+    res.status(201).json(clienteSinPassword);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al crear cliente', error: error.message });
   }
@@ -46,7 +53,7 @@ const crearCliente = async (req, res) => {
 const actualizarCliente = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, email, telefono } = req.body;
+    const { nombre, email, telefono, password } = req.body;
 
     const cliente = await Cliente.findByPk(id);
 
@@ -57,10 +64,12 @@ const actualizarCliente = async (req, res) => {
     if (nombre) cliente.nombre = nombre;
     if (email) cliente.email = email;
     if (telefono) cliente.telefono = telefono;
+    if (password) cliente.password = await bcrypt.hash(password, 10);
 
     await cliente.save();
 
-    res.json({ mensaje: 'Cliente actualizado exitosamente', cliente });
+    const { password: _omit, ...clienteSinPassword } = cliente.toJSON();
+    res.json({ mensaje: 'Cliente actualizado exitosamente', cliente: clienteSinPassword });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al actualizar cliente', error: error.message });
   }
